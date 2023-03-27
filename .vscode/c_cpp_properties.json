@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            /*
+            define _GNU_SOURCE is needed for the vscode c/c++ plugin intellisense, else
+            the vscode plugin will not be able to recognize struct sigaction.
+            (lead to that there's a false warning by vscode plugin, but able to run the code normaly with vscode or gcc)
+            reference:
+            + https://github.com/microsoft/vscode-cpptools/issues/5262
+            + https://github.com/microsoft/vscode-cpptools/issues/2903
+            + https://github.com/microsoft/vscode-cpptools/issues/2782
+            */
+            "defines": ["_GNU_SOURCE"],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
