@@ -1,0 +1,1 @@
+Echo server. Return the data as the client transports and store data in a temp file. The concurrent model (I mean, the trick to serve multiple client concurrently) is creating a new child process for a new incoming client. Run along with chapter10/echo_mpclient.c.

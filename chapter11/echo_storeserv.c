@@ -1,4 +1,3 @@
-// Echo server. Return the data as the client transports and store data in a temp file. Run along with chapter10/echo_client.c.
 #include <stdio.h>
 #include <sys/socket.h>
 #include <string.h>

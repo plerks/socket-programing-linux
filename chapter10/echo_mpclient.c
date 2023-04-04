@@ -1,4 +1,3 @@
-// Echo client. Run along with chapter11/echo_storeserv.c.
 #include <stdio.h>
 #include <netinet/in.h>
 #include <string.h>
@@ -43,7 +42,7 @@ int main(int argc, char const *argv[]) {
 }
 
 void write_routine(int sock, char *buf) {
-    fputs("Type to get the echo:\n", stdout);
+    fputs("Type to get the echo, Q/q to exit:\n", stdout);
     while(1) {
         /* fgets() will ensure that the string ends with '\0'. fgets() reserve the '\n' while gets() not.
         However, gets(char *s) lack buffer overrun checking. */
@@ -53,7 +52,16 @@ void write_routine(int sock, char *buf) {
             read() function can return 0 so that the read process can exit. Without this shutdown(sock, SHUT_WR), the read
             process will not exit even after typing 'q'. It seems that when multiple file descriptor refering one socket,
             only when all file descriptors get closed by calling close(), then the connection automatically get closed by os. However,
-            shutdown() perhaps directly cause os sending fin packages to the other side to end the connection. */
+            shutdown() perhaps directly cause os sending fin package to the other side to end the connection.
+            
+            About this, I made some note at
+            https://github.com/plerks/mixed-tech-notes/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%
+            9B%B8%E5%85%B3/%E5%85%B3%E4%BA%8ETCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6
+            %8F%A1%E6%89%8B.md
+            
+            A brief conclusion is that close() decreases socket's reference count by one. And if to zero, the connection gets
+            closed and socket gets destroyed. However, shutdown() closes given direction's connection and shutdown(fd, SHUT_WR)
+            send fin package to the other. */
             shutdown(sock, SHUT_WR);
             return;
         }
