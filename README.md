@@ -17,3 +17,11 @@ Else you can open the project with VSCode and run the code with my setting. Just
 Server serves at port 9190 by default, you can configure it by running like `./hello_server 9190`.
 
 Client connect to 127.0.0.1:9190 by default, you can configure it by running like `./hello_client 127.0.0.1 9190`.
+
+`gcc --version`:
+```
+gcc (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
