@@ -11,9 +11,12 @@ int main(int argc, char* argv[]) {
     struct sockaddr_in serv_addr;
     char message[30];
     int str_len;
+
+    char* argvCopy[3];
     if (argc != 3) {
-        printf("Usage : %s <IP> <port>\n", argv[0]);
-        exit(0);
+        argv = argvCopy;
+        argvCopy[1] = "127.0.0.1";
+        argvCopy[2] = "9190";
     }
 
     sock = socket(PF_INET, SOCK_STREAM, 0);

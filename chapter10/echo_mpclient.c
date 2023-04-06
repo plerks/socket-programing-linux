@@ -10,12 +10,21 @@ void error_handling(char *message);
 void write_routine(int sock, char *buf);
 void read_routine(int sock, char *buf);
 
-int main(int argc, char const *argv[]) {
-    // if not given server ip and port number, the client connect to 127.0.0.1:9190 by default
+int main(int argc, char *argv[]) {
+    /* if not given server ip and port number, the client connects to 127.0.0.1:9190 by default.
+    In case argv's length is less than 3, argvCopy is used as argv if argc != 3(to prevent ArrayIndexOutOfBounds,
+    despite no exception occurred without argvCopy). argvCopy must be declared outside the "if" scope else
+    there will be a segmentation fault at inet_addr() but htons(atoi(argv[2])) is fine, weired. Maybe the compiler
+    chose to release the memory of argvCopy[1] after the "if" scope?
+    Besides, the corresponding code on windows ran normally without any exception at inet_addr(), no need to move declaration of
+    argvCopy out of the "if" scope, may because of the difference of implementation on compiler. */
+    char* argvCopy[3];
     if (argc != 3) {
-        argv[1] = "127.0.0.1";
-        argv[2] = "9190";
+        argv = argvCopy;
+        argvCopy[1] = "127.0.0.1";
+        argvCopy[2] = "9190";
     }
+
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;

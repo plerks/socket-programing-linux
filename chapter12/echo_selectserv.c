@@ -12,8 +12,7 @@
 #define BUF_SIZE 50
 void error_handling(char *message);
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char *argv[]) {
     // if not given a port number argument, the server serves at port 9190 by default
     if (argc != 2) {
         argv[1] = "9190";

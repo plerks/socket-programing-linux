@@ -17,12 +17,10 @@ int main(int argc, char *argv[]) {
 
     char message[] = "Hello World!";
 
+    char* argvCopy[2];
     if (argc != 2) {
-        for (int i = 0; i < argc; i++) {
-            printf("%s\n", argv[i]);
-        }
-        printf("Usage : %s <port>\n", argv[0]);
-        exit(1);
+        argv = argvCopy;
+        argv[1] = "9190";
     }
 
     serv_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -34,6 +32,8 @@ int main(int argc, char *argv[]) {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     serv_addr.sin_port = htons(atoi(argv[1]));
+    int option = 1;
+    setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR, &option, (socklen_t)sizeof(option));
 
     if (bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr)) == -1) {
         error_handling("bind() error");

@@ -16,8 +16,10 @@ void read_childproc(int);
 
 int main(int argc, char *argv[]) {
     // if not given a port number argument, the server serves at port 9190 by default
+    char *argvCopy[2];
     if (argc != 2) {
-        argv[1] = "9190";
+        argv = argvCopy;
+        argvCopy[1] = "9190";
     }
     int server_sock = socket(PF_INET, SOCK_STREAM, 0);
     if (server_sock == -1) {
@@ -28,6 +30,8 @@ int main(int argc, char *argv[]) {
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(atoi(argv[1]));
+    int option = 1;
+    setsockopt(server_sock, SOL_SOCKET, SO_REUSEADDR, &option, (socklen_t)sizeof(option));
     if (bind(server_sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1) {
         error_handling("bind() error");
     }
