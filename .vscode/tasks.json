@@ -19,6 +19,8 @@
             ],
             "group": {
                 "kind": "build",
+                /* If there are multiple "isDefault": true tasks, click the run button at the top right corner, VSCode will let
+                you choose, else just run the default one. */
                 "isDefault": true
             },
             "detail": "调试器生成的任务。"
@@ -40,10 +42,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "调试器生成的任务。"
         },
         {
@@ -63,10 +62,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "调试器生成的任务。"
         }
     ],
