@@ -10,9 +10,9 @@
 
 #define MAX_CLIENT 50
 #define BUF_SIZE 50
-#define MAX_NAME_SIZE 6
+#define NAME_ARR_SIZE 6
 #define MAX_SENTENCE_HEADER_SIZE 50
-char name[6];
+char name[NAME_ARR_SIZE];
 void error_handling(char *message);
 char *get_random_name(char *name);
 int max(int a, int b);
@@ -59,10 +59,10 @@ void error_handling(char *message) {
 char *get_random_name(char *name) {
     srand((unsigned)time(NULL));
     int i;
-    for (i = 0; i < max(3, rand() % MAX_NAME_SIZE); i++) {
-        name[i] = (rand() % ('z' - 'a')) + 'a';
+    for (i = 0; i < max(3, rand() % NAME_ARR_SIZE); i++) {
+        name[i] = (rand() % ('z' - 'a' + 1)) + 'a';
     }
-    name[i + 1] = '\0';
+    name[i] = '\0';
     return name;
 }
 
