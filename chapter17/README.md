@@ -7,3 +7,5 @@ echo_EPETserv.c uses non-blocking socket and epoll's edge trigger mode.
 Non-blocking socket is better than blocking socket, since blocking socket may cause long-time stuckness.
 
 Under edge trigger mode, the os generates less epoll_event. But I have no idea if there would be big difference in efficiency between level trigger and edge trigger in normal situation. For extreme situation, for example, the program can't read the data in time, edge trigger may have better efficiency.
+
+**attention**: take the read situation for example, edge trigger happens when new data received, not when the socket buffer changes from empty to unempty, not when the socket buffer's status changes (for example, got read some data by the application program).
