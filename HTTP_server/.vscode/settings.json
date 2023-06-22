@@ -1,0 +1,25 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "string.h": "c",
+        "unistd.h": "c",
+        "inet.h": "c",
+        "socket.h": "c",
+        "iostream": "cpp",
+        "string": "cpp",
+        "istream": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "functional": "cpp",
+        "typeinfo": "cpp",
+        "cstdint": "c",
+        "signal.h": "c",
+        "sigaction.h": "c",
+        "limits": "c",
+        "stdlib.h": "c",
+        "winsock2.h": "c",
+        "windows.h": "c",
+        "process.h": "c",
+        "server.h": "c"
+    }
+}

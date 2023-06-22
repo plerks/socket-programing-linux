@@ -6,3 +6,8 @@
 !*/
 temp.*
 test.c
+*.o
+*.a
+*.so
+*.lib
+*.dll
