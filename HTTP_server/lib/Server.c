@@ -172,8 +172,7 @@ void init_clientFds(struct ClientFds *clientFds) {
 }
 
 void *callProperHandler(int sock) {
-    char buf[MAX_HEADER_SIZE];
-    memset(buf, 0, sizeof(MAX_HEADER_SIZE));
+    char buf[MAX_HEADER_SIZE] = {0};
     int totalLen = 0;
     int len = 0;
     // receive the full header first

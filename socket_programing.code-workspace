@@ -8,6 +8,9 @@
         },
         {
             "path": "HTTP_server"
+        },
+        {
+            "path": "HTTP_request"
         }
     ]
 }

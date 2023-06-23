@@ -62,6 +62,10 @@ void *postDemoHandleFunc(struct Request *request) {
     char buf[buf_size];
     // Now request->buf may have received part of the post request body data.
     int receivedBodyLength = request->totalLen - (strstr(request->buf, "\r\n\r\n") + strlen("\r\n\r\n") - request->buf);
+    /* printf("request->totalLen: %d\n", request->totalLen);
+    printf("receivedBodyLength: %d\n", receivedBodyLength);
+    printf("--------request->buf--------: \n%s\n", request->buf);
+    printf("--------request->buf-------- ends\n"); */
     write(sock, strstr(request->buf, "\r\n\r\n") + strlen("\r\n\r\n"), receivedBodyLength);
     totalLen += receivedBodyLength;
     while (totalLen < contentLength) {
