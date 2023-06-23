@@ -93,7 +93,6 @@ void *threadRun_get(void *argList) {
             int contentLength = getContentLength(buf);
             int receivedBodyLength = recvLen - (strstr(buf, "\r\n\r\n") + strlen("\r\n\r\n") - buf);
             if (receivedBodyLength >= contentLength || recvLen > BUF_SIZE - 1) {
-                close(sock);
                 break;
             }
         }
@@ -104,6 +103,7 @@ void *threadRun_get(void *argList) {
     else {
         arg->then(strstr(buf, "\r\n\r\n") + strlen("\r\n\r\n"));
     }
+    close(sock);
     free(arg);
 }
 
@@ -145,8 +145,16 @@ void *threadRun_post(void *argList) {
     while ((len = recv(sock, buf + recvLen, BUF_SIZE - recvLen, 0)) != 0) {
         if (len == -1) {
             printf("len: -1, errno: %d\n", errno);
+            break;
         }
-        recvLen += len;
+        else {
+            recvLen += len;
+            int contentLength = getContentLength(buf);
+            int receivedBodyLength = recvLen - (strstr(buf, "\r\n\r\n") + strlen("\r\n\r\n") - buf);
+            if (receivedBodyLength >= contentLength || recvLen > BUF_SIZE - 1) {
+                break;
+            }
+        }
     }
     if (strstr(buf, "\r\n\r\n") == NULL) {
         arg->then("");
@@ -154,12 +162,14 @@ void *threadRun_post(void *argList) {
     else {
         arg->then(strstr(buf, "\r\n\r\n") + strlen("\r\n\r\n"));
     }
+    close(sock);
+    free(arg);
 }
 
 void resolveDomainNameFromUrl(char *url, char *domainName) {
     char *s = strstr(url, "//");
     s += 2;
-    for (int i = 0; *(s + i) != ':' && *(s + i) != '/'; i++) {
+    for (int i = 0; *(s + i) != ':' && *(s + i) != '/' && *(s + i) != '\0'; i++) {
         domainName[i] = *(s + i);
     }
 }
