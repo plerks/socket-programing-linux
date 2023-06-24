@@ -9,6 +9,8 @@ void *getDemoHandleFunc(struct Request *request);
 void *postDemoHandleFunc(struct Request *request);
 
 int main(int argc, char *argv) {
+    /* No need to concern much about addHandler() thread safety problems,
+    only main thread writes it before startServer() and only worker threads read it after startServer(). */
     struct Handler *demoHandler_get = (struct Handler *)malloc(sizeof(struct Handler));
     memset(demoHandler_get, 0, sizeof(struct Handler));
     strcpy(demoHandler_get->requestMethod, "GET");
