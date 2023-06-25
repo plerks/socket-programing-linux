@@ -6,10 +6,10 @@ There are [aio](https://man7.org/linux/man-pages/man7/aio.7.html) functions in l
 
 Default c lib does not have common data structures like String or Map. And I did't implement one myself. So I need to define buf length as an estimated upper bound or write some other compromised code.
 
-The book's chapter24 demonstrated how to code a basic HTTP server. But it's quite basic, just accept, create new thread to read, resolve and write, without using any concurrent mode introduced in the book before. And the author mentioned that because for normal HTTP protocol, the server just close the connetion after responsing (short connection), no time for IOCP/epoll to make much effect, so using IOCP/epoll won't bring much improvement. Despite that, I used epoll to implement the server (originate from chapter17/echo_EPETserv.c).
+The book's chapter24 demonstrated how to code a basic HTTP server. But it's quite basic, just accept, create new thread to read, resolve and write, without using any concurrent mode introduced in the book before. And the author mentioned that because for normal HTTP protocol, the server just close the connetion after responsing (short connection), no time for IOCP/epoll to make much effect, so using IOCP/epoll won't bring much improvement. Despite that, I used epoll to implement the server (originate from chapter17/echo_EPLTserv.c).
 
 ## How to run
-In linux, to let the server listen at port 80 need sudo privilege so I changed to port to 8000. If want to serve at 80, you can change the port number in DemoApplication.c and compile to run.
+In linux, to let the server listen at port 80 needs sudo privilege so I changed to port to 8000. If want to serve at 80, you can change the port number in DemoApplication.c and compile to run.
 
 1.Open **HTTP_server** folder with VSCode and open src/DemoApplication.c to run.
 

@@ -103,7 +103,6 @@ int startServer(char *ip, int port) {
     event.data.fd = server_sock;
     int epfd = epoll_create(EPOLL_SIZE);
     epoll_ctl(epfd, EPOLL_CTL_ADD, server_sock, &event);
-    char buf[BUF_SIZE];
     long number_of_processors = sysconf(_SC_NPROCESSORS_ONLN);
     struct ClientFds *clientFds = malloc(sizeof(struct ClientFds));
     init_clientFds(clientFds);
@@ -275,13 +274,13 @@ void *defaultResonse(struct Request *request) {
         char serverName[] = "Server: simple web server\r\n";
         char *contentType = "Content-type: text/plain\r\n";
         if (endsWith(url, ".html")) {
-            contentType = "Content-type: text/html\r\n";
+            contentType = "Content-type: text/html; charset=utf-8\r\n";
         }
         if (endsWith(url, ".css")) {
-            contentType = "Content-type: text/css\r\n";
+            contentType = "Content-type: text/css; charset=utf-8\r\n";
         }
         if (endsWith(url, ".js")) {
-            contentType = "Content-type: application/javascript\r\n";
+            contentType = "Content-type: application/javascript; charset=utf-8\r\n";
         }
         char emptyLine[] = "\r\n";
         /* see <https://stackoverflow.com/questions/108183/how-to-prevent-sigpipes-or-handle-them-properly>:
@@ -310,7 +309,7 @@ void *sendErrorPage(struct Request *request) {
     int sock = request->sock;
     char protocol[] = "HTTP/1.0 400 Bad Request\r\n";
     char serverName[] = "Server: simple web server\r\n";
-    char contentType[] = "Content-type: text/html\r\n";
+    char contentType[] = "Content-type: text/html; charset=utf-8\r\n";
     char emptyLine[] = "\r\n";
     send(sock, protocol, strlen(protocol), MSG_NOSIGNAL);
     send(sock, serverName, strlen(serverName), MSG_NOSIGNAL);
