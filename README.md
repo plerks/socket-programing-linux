@@ -8,6 +8,12 @@ The **bookcode** folder contains code originates from the book's example code (N
 
 The **HTTP_server** folder contains code implementing an HTTP server. The book's chapter24 demonstrated how to code a basic HTTP server. But it's quite basic, just accept, create new thread to read, resolve and write, without using any concurrent mode introduced in the book before. And the author mentioned that because for normal HTTP protocol, the server just close the connetion after responsing (short connection), no time for IOCP/epoll to make much effect, so using IOCP/epoll won't bring much improvement. Despite that, I used epoll to implement the server (originate from chapter17/echo_EPETserv.c).
 
+The **HTTP_request** folder is a basic http request lib, able to send GET/POST request and call the corresponding callback after having received all the body data (assume that there's limited data).
+
+The **HTTPS_server** folder is improved from **HTTP_server** using [openssl](https://www.openssl.org/) library.
+
+The **HTTPS_request** folder is improved from **HTTP_request** using [openssl](https://www.openssl.org/) library.
+
 I'm following under_score_case naming convention for the linux code.
 
 `gcc --version`:

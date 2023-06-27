@@ -14,6 +14,9 @@
         },
         {
             "path": "HTTPS_server"
+        },
+        {
+            "path": "HTTPS_request"
         }
     ]
 }

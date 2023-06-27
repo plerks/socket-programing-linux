@@ -129,8 +129,8 @@ int startServer(char *ip, int port) {
                 int addr_size = sizeof(client_addr);
                 int client_sock = accept(server_sock, (struct sockaddr *)&client_addr, &addr_size);
                 // printf("accept client_sock: %d\n", client_sock);
-                int flag = fcntl(client_sock, F_GETFL | O_NONBLOCK);
-                fcntl(client_sock, F_SETFL, flag); // non-blocking socket
+                int flag = fcntl(client_sock, F_GETFL);
+                fcntl(client_sock, F_SETFL, flag | O_NONBLOCK); // non-blocking socket
                 getpeername(client_sock, (struct sockaddr *)&client_addr, &addr_size);
                 // printf("client : %s:%d connected\n", inet_ntoa(client_addr.sin_addr), client_addr.sin_port);
                 event.data.fd = client_sock;

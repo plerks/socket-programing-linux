@@ -8,7 +8,7 @@ Default c lib does not have common data structures like String or Map. And I did
 
 The book's chapter24 demonstrated how to code a basic HTTP server. But it's quite basic, just accept, create new thread to read, resolve and write, without using any concurrent mode introduced in the book before. And the author mentioned that because for normal HTTP protocol, the server just close the connetion after responsing (short connection), no time for IOCP/epoll to make much effect, so using IOCP/epoll won't bring much improvement. Despite that, I used epoll to implement the server (originate from chapter17/echo_EPLTserv.c).
 
-Use epoll to monitor socket file descriptors, accept client connection request, put client fds into a queue (with a mutex to guarantee thread safety) when there gets data to read. And mutiple worker threads retrive client fd and handle the request.
+Use epoll to monitor socket file descriptors, accept client connection request, put client fds into a queue (with a mutex to guarantee thread safety) when there gets data to read. And mutiple worker threads retrieve client fd and handle the request.
 
 ## How to run
 I'm under ubuntu. First, have openssl library installed by `sudo apt-get install libssl-dev=3.0.2-0ubuntu1.10`.

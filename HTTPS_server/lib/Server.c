@@ -145,8 +145,8 @@ int startServer(char *ip, int port) {
                 int addr_size = sizeof(client_addr);
                 int client_sock = accept(server_sock, (struct sockaddr *)&client_addr, &addr_size);
                 // printf("accept client_sock: %d\n", client_sock);
-                int flag = fcntl(client_sock, F_GETFL | O_NONBLOCK);
-                fcntl(client_sock, F_SETFL, flag); // non-blocking socket
+                int flag = fcntl(client_sock, F_GETFL);
+                fcntl(client_sock, F_SETFL, flag | O_NONBLOCK); // non-blocking socket
                 getpeername(client_sock, (struct sockaddr *)&client_addr, &addr_size);
                 // printf("client : %s:%d connected\n", inet_ntoa(client_addr.sin_addr), client_addr.sin_port);
                 event.data.fd = client_sock;
@@ -205,16 +205,23 @@ void *callProperHandler(int sock, SSL_CTX *ctx) {
         // I'm using self-signed cert, so that's probably why SSL_accept() will error
         // printf("SSL_accept error\n");
     }
+    /* the new of the following two BIO and SSL_set_bio() must be called after SSL_accept(). Calling before
+    SSL_accept(), the server won't work fine.
+    */
     BIO *rbio = BIO_new(BIO_s_mem());
     BIO *wbio = BIO_new(BIO_s_mem());
     SSL_set_bio(ssl, rbio, wbio);
+
     // receive the full header first
     while (totalDecryptedLen < MAX_HEADER_SIZE && strstr(decryptedBuf, "\r\n\r\n") == NULL) {
         len = read(sock, buf, MAX_HEADER_SIZE);
         if (len > 0) {
             BIO_write(rbio, buf, len);
-            int decryptedLen = SSL_read(ssl, decryptedBuf + totalDecryptedLen, MAX_HEADER_SIZE - totalDecryptedLen);
-            totalDecryptedLen += decryptedLen;
+            int SSL_readLen = 0;
+            // need to call SSL_read() in a loop to read all the data out
+            while ((SSL_readLen = SSL_read(ssl, decryptedBuf + totalDecryptedLen, BUF_SIZE)) > 0) {
+                totalDecryptedLen += SSL_readLen;
+            }
             if (totalDecryptedLen > MAX_HEADER_SIZE) {
                 printf("the request header is too long\n");
                 return NULL;
