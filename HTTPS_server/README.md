@@ -59,5 +59,12 @@ So the client can know that the server has sent all the response content by dete
 
 And as for how server detects the end of request body. If it's a GET request, then it's supposed to have no body (thus done). And if it's a POST request, see [this](https://stackoverflow.com/questions/4824451/detect-end-of-http-request-body), the request headers should indicate the body length by `Content-Length`(for fixed length) or `Transfer-Encoding: Chunked`(for uncertain length).
 
+## Understanding of asynchronous I/O
+The introduction of asynchronous I/O is supposed to be based on such fact that I/O is usually slower than common actions, especially socket I/O that requires geographic transmission.
+
+So, when the thread changes synchronous I/O to asynchronous I/O, it has the chance to perform other actions since returning from the I/O functions immediately, instead of pending on the slow I/O functions. And the actual I/O is performed by more basic layers. And the finish of asynchronous I/O can be acquired by means like IOCP's GetQueuedCompletionStatus() function.
+
+On the other hand, asynchronous I/O making a difference requires that the thread have actual actions that can be performed not depending on the finish of the I/O. Else asynchronous I/O might not introduce optimization.
+
 ## unsolved problem
 In Server.c, I intended to use epoll's edge trigger mode. However, use edge trigger mode (in Server.c, change `event.events = EPOLLIN;` to `event.events = EPOLLIN | EPOLLET;`) will ocassionally cause the browser keeps pending. Since browser keeps pending, at least the connection is still alive. But the connection should have been closed by my server code. Weird. Anyway, just leave the problem aside for now.
